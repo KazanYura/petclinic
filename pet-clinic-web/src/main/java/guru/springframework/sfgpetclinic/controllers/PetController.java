@@ -52,7 +52,7 @@ public class PetController {
     }
 
     @GetMapping("/pets/new")
-    public String initCreationForm(Owner owner, Model model) {
+    public String initCreationForm(Owner owner, Model model, @PathVariable String ownerId) {
         Pet pet = new Pet();
         owner.getPets().add(pet);
         pet.setOwner(owner);
@@ -70,6 +70,7 @@ public class PetController {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         } else {
+            pet.setOwner(owner);
             petService.save(pet);
 
             return "redirect:/owners/" + owner.getId();
